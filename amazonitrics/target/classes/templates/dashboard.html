@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org" data-theme="light"> <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Amazonitrics</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+    <header>
+        <h1>Dashboard Amazonitrics</h1>
+        <button id="themeToggle" class="theme-toggle">Tema Escuro</button>
+    </header>
+
+    <main class="container">
+
+        <section class="filtros-card">
+            <h2>Configurar Cenário</h2>
+            <form th:action="@{/analisar}" th:object="${cenario}" method="post">
+                <div class="form-group">
+                    <label for="tamanho">Tamanho da Entrada</label>
+                    <input type="number" id="tamanho" th:field="*{tamanho}" />
+                    <span class="erro" th:if="${#fields.hasErrors('tamanho')}" th:errors="*{tamanho}"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="tipoDados">Tipo de Dados</label>
+                    <select id="tipoDados" th:field="*{tipoDados}">
+                        <option value="ALEATORIO">Aleatório</option>
+                        <option value="ORDENADO">Ordenado</option>
+                        <option value="INVERTIDO">Invertido (Ordenado ao contrário)</option>
+                        <option value="SEMI_ORDENADO">Semi-Ordenado (10% bagunçado)</option>
+                        <option value="DADOS_EXTERNOS_NUMPOL">Dados Externos (Por Nº de Polígonos)</option>
+                        <option value="DADOS_EXTERNOS_AREA">Dados Externos (Por Área)</option>
+                        <option value="DADOS_EXTERNOS_CLASSE">Dados Externos (Por Nome da Classe)</option>
+                    </select>
+                </div>
+                <button type="submit">Executar Análise</button>
+            </form>
+        </section>
+
+        <section class="resultados-card" th:if="${benchmarkResultado}">
+            <h2>
+                Resultados (Cenário: <span th:text="${cenario.tamanho}"></span> elementos, <span th:text="${cenario.tipoDados}"></span>)
+            </h2>
+
+            <details class="accordion-item" open> <summary>Gráfico de Performance</summary>
+                <div class="grafico-container">
+                    <canvas id="graficoBenchmark"></canvas>
+                </div>
+            </details>
+
+            <details class="accordion-item">
+                <summary>Tabela de Tempos</summary>
+                <div class="table-responsive-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Algoritmo</th>
+                                <th>Tempo (ms)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="res : ${benchmarkResultado.resultados}">
+                                <td th:text="${res.nomeAlgoritmo}"></td>
+                                <td th:text="${#numbers.formatDecimal(res.tempoMs, 1, 3)} + ' ms'"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </details>
+
+            <details class="accordion-item">
+                <summary>Amostra de Dados (Primeiros 100)</summary>
+                <h4>Antes da Ordenação:</h4>
+                <pre class="amostra" th:text="${benchmarkResultado.amostraAntes}"></pre>
+
+                <h4>Depois da Ordenação:</h4>
+                <pre class="amostra" th:text="${benchmarkResultado.amostraDepois}"></pre>
+            </details>
+
+        </section>
+
+        <section class="resultados-card" th:unless="${benchmarkResultado}">
+            <h2>Histórico Recente</h2>
+            <p>Execute uma nova análise ou veja os resultados das últimas 10 execuções.</p>
+
+            <details class="accordion-item" open>
+                <summary>Ver Histórico</summary>
+                 <div class="table-responsive-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Algoritmo</th>
+                                <th>Tempo (ms)</th>
+                                <th>Tamanho</th>
+                                <th>Tipo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="res : ${historico}">
+                                <td th:text="${res.nomeAlgoritmo}"></td>
+                                <td th:text="${#numbers.formatDecimal(res.tempoMs, 1, 3)}"></td>
+                                <td th:text="${res.tamanhoDados}"></td>
+                                <td th:text="${res.tipoDados}"></td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(historico)}">
+                                <td colspan="4">Nenhuma execução no histórico.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </details>
+
+            <details class="accordion-item" th:if="${dadosDesmatamento}">
+                 <summary>Dados Externos (Amostra)</summary>
+                 <div class="table-responsive-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Ano</th> <th>Mês</th> <th>Área</th> <th>UF</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="dado : ${dadosDesmatamento}">
+                                <td th:text="${dado.year}"></td>
+                                <td th:text="${dado.month}"></td>
+                                <td th:text="${dado.area}"></td>
+                                <td th:text="${dado.uf}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                 </div>
+            </details>
+
+        </section>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script th:if="${benchmarkResultado}" th:inline="javascript">
+        /*<![CDATA[*/
+        const benchmarkData = /*[[${benchmarkResultado.resultados}]]*/ [];
+        /*]]>*/
+    </script>
+
+    <script th:src="@{/js/dashboard.js}"></script>
+
+</body>
+</html>
