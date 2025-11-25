@@ -14,7 +14,8 @@ Esse projeto foi desenvolvido como parte das Atividades Práticas Supervisionada
 Nesse sentido, o **Amazonitrics** é uma ferramenta de benchmark que opera com duas fontes de dados distintas: **dados internos** (gerados aleatoriamente pelo sistema) e **dados externos reais** (metadados de desmatamento da Amazônia fornecidos pelo *TerraBrasilis*). O sistema utiliza uma arquitetura Model-View-Controller (MVC) robusta com dois bancos de dados para garantir a integridade e a separação das responsabilidades dessa nossa ferramenta.
 
 ## 📸 Screenshots
-> [!NOTE] Nota: as imagens abaixo representam o funcionamento da aplicação.
+> [!NOTE]
+> As imagens abaixo representam o funcionamento da aplicação.
 
 ### Dashboard (Tema Claro)
 <div align="center">
@@ -60,7 +61,8 @@ CREATE DATABASE IF NOT EXISTS amazonitrics_benchmark;
 CREATE DATABASE IF NOT EXISTS amazonitrics_external;
 ```
 
-> [!IMPORTANT] O sistema está configurado para usar o usuário root por padrão (ou por variáveis de ambiente). Se suas credenciais forem diferentes, configure as variáveis de ambiente MARIADB_USERNAME e MARIADB_PASSWORD ou altere o arquivo src/main/resources/application.properties.
+> [!IMPORTANT]
+> O sistema está configurado para usar o usuário root por padrão (ou por variáveis de ambiente). Se suas credenciais forem diferentes, configure as variáveis de ambiente MARIADB_USERNAME e MARIADB_PASSWORD ou altere o arquivo src/main/resources/application.properties.
 
 ## 🚀 Instalando as dependências (Opcional)
 Para instalar as dependências e compilar o projeto, navegue até a pasta raiz (onde está o `pom.xml`) e utilize o Maven.
@@ -88,7 +90,8 @@ Como uma alternativa mais simples e que não exige a instalação do Maven na su
 4. Devido a extensão que está baixada, na parte superior da IDE terá um botão pequeno escrito `RUN`.
 5. Clique nesse botão e aguarde a execução.
 
-> [!NOTE] O terminal integrado do VS Code abrirá e iniciará o servidor Spring Boot automaticamente.
+> [!NOTE]
+> O terminal integrado do VS Code abrirá e iniciará o servidor Spring Boot automaticamente.
 
 ## 💻 Execução via Terminal (Maven)
 Para executar o código e iniciar o servidor web, certifique-se de estar na raiz do projeto e execute o seguinte comando:
@@ -111,11 +114,13 @@ Em relação as funcionalidades presentes na nossa ferramenta, percebe-se as seg
 ### ⚙️ Filtros de Cenário
 - **Dados Internos:** selecione `Aleatório`, `Ordenado`, `Invertido` ou `Semi-Ordenado` e defina o tamanho da entrada.
 
-> [!NOTE] Leve em conta que quanto maior o tamanho da entrada, mais tempo levará para realizar a análise.
+> [!NOTE]
+> Leve em conta que quanto maior o tamanho da entrada, mais tempo levará para realizar a análise.
 
 - **Dados Externos:** selecione as opções: `Nº de Polígonos`, `Área` ou `Classe`.
 
-> [!NOTE] O tamanho de entrada é de acordo com a quantidade de registros no banco de dados. No que foi disponibilizado, há exatos 4.114 registros.
+> [!NOTE]
+> O tamanho de entrada é de acordo com a quantidade de registros no banco de dados. No que foi disponibilizado, há exatos 4.114 registros.
 
 ### ⌛ Sobre a Execução
 - O sistema irá buscar ou gerar os dados.
