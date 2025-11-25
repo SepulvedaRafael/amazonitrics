@@ -142,3 +142,6 @@ A arquitetura que foi utilizada, Model-View-Controller (MVC), é uma das mais co
 - **src/main/java/.../repository:** é responsável por armazenar as interfaces de acesso aos bancos de dados.
 - **src/main/resources/templates:** compõe as Views em `HTML`, juntamente com `Thymeleaf`.
 - **src/main/resources/static:** é a pasta que possui toda a estilização e interação do usuário com o sistema. Há a utilização do `Vanilla Framework`.
+
+## 📝 Licença
+Esse projeto está sob a *Apache License 2.0*. Veja o arquivo *[LICENSE](LICENSE.md)* para mais detalhes.
